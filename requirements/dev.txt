@@ -1,0 +1,4 @@
+black==19.10b0
+boto3==1.11.4
+botocore==1.14.4
+requests==2.22.0

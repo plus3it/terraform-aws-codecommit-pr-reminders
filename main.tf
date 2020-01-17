@@ -2,10 +2,6 @@ terraform {
   required_version = ">= 0.12"
 }
 
-provider "aws" {
-  region = var.region
-}
-
 module "lambda" {
   source = "git::https://github.com/plus3it/terraform-aws-lambda.git?ref=v1.1.0"
 

@@ -1,9 +1,3 @@
-variable "region" {
-  description = "(Optional) Region for the aws provider"
-  type        = string
-  default     = "us-east-1"
-}
-
 variable "name" {
   description = "(Optional) Name to associate with the lambda function"
   type        = string

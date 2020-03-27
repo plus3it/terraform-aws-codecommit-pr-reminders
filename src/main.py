@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 import json
 import os
+import logging
+import collections
 
 import boto3
 import requests
@@ -10,6 +12,38 @@ DEBUG = False
 
 codecommit = boto3.client("codecommit")
 slack_webhook = os.environ["SLACK_WEBHOOK"] if not DEBUG else None
+
+
+DEFAULT_LOG_LEVEL = logging.DEBUG
+LOG_LEVELS = collections.defaultdict(
+    lambda: DEFAULT_LOG_LEVEL,
+    {
+        "critical": logging.CRITICAL,
+        "error": logging.ERROR,
+        "warning": logging.WARNING,
+        "info": logging.INFO,
+        "debug": logging.DEBUG,
+    },
+)
+
+# Lambda initializes a root logger that needs to be removed in order to set a
+# different logging config
+root = logging.getLogger()
+if root.handlers:
+    for handler in root.handlers:
+        root.removeHandler(handler)
+
+log_file_name = ""
+if not os.environ.get("AWS_EXECUTION_ENV"):
+    log_file_name = "aws-pr-reminders.log"
+
+logging.basicConfig(
+    filename=log_file_name,
+    format="%(asctime)s.%(msecs)03dZ [%(name)s][%(levelname)-5s]: %(message)s",
+    datefmt="%Y-%m-%dT%H:%M:%S",
+    level=LOG_LEVELS[os.environ.get("LOG_LEVEL", "").lower()],
+)
+log = logging.getLogger(__name__)
 
 
 def post_message(pull_requests):
@@ -46,11 +80,15 @@ def get_open_pull_requests():
             or {}
         )
 
+        log.debug("Processing open prs: %s", json.loads(open_prs))
+
         for open_pr in open_prs.get("pullRequestIds", []):
             pr = codecommit.get_pull_request(pullRequestId=open_pr)
 
             if not pr:
                 continue
+
+            log.debug("Processing pr: %s", json.loads(pr))
 
             pr_id = pr["pullRequest"]["pullRequestId"]
             author = pr["pullRequest"]["authorArn"]

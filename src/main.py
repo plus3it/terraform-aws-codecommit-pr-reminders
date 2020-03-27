@@ -8,11 +8,9 @@ import collections
 import boto3
 import requests
 
-DEBUG = False
-
 codecommit = boto3.client("codecommit")
-slack_webhook = os.environ["SLACK_WEBHOOK"] if not DEBUG else None
-
+SLACK_WEBHOOK = os.environ.get("SLACK_WEBHOOK")
+DRYRUN = os.environ.get("DRYRUN")
 
 DEFAULT_LOG_LEVEL = logging.DEBUG
 LOG_LEVELS = collections.defaultdict(
@@ -64,8 +62,8 @@ def post_message(pull_requests):
 
     if text:
         payload = {"blocks": text}
-        if not DEBUG:
-            requests.post(slack_webhook, data=json.dumps(payload))
+        if not DRYRUN:
+            requests.post(SLACK_WEBHOOK, data=json.dumps(payload))
 
 
 def get_open_pull_requests():

@@ -21,6 +21,7 @@ module "lambda" {
     variables = {
       SLACK_WEBHOOK = var.hook_url
       LOG_LEVEL     = var.LOG_LEVEL
+      DRYRUN        = var.dry_run
     }
   }
 }

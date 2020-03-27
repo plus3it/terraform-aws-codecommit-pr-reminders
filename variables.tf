@@ -26,3 +26,9 @@ variable "log_level" {
   default     = "INFO"
   description = "The log level of the lambda function"
 }
+
+variable "dry_run" {
+  type        = bool
+  default     = false
+  description = "toggle to control dryrun output of the lambda function"
+}

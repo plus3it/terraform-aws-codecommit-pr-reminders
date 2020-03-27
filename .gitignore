@@ -1,9 +1,15 @@
-#  Local .terraform directories
-.terraform/
-
-# .tfstate files
+# Terraform compiled files and folders
 *.tfstate
-*.tfstate.*
+*.tfstate.backup
+.terraform/
+*.auto.tfvars
 
-# .tfvars files
-*.tfvars
+# ignore log files
+*.log
+
+# tardigrade-ci
+.tardigrade-ci
+tardigrade-ci/
+
+# eclint
+.git/

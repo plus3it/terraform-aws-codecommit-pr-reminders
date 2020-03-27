@@ -10,7 +10,7 @@ import requests
 
 codecommit = boto3.client("codecommit")
 SLACK_WEBHOOK = os.environ.get("SLACK_WEBHOOK")
-DRYRUN = os.environ.get("DRYRUN")
+DRYRUN = os.environ.get("DRYRUN", "").lower() == "true"
 
 DEFAULT_LOG_LEVEL = logging.DEBUG
 LOG_LEVELS = collections.defaultdict(
@@ -78,7 +78,7 @@ def get_open_pull_requests():
             or {}
         )
 
-        log.debug("Processing open prs: %s", json.loads(open_prs))
+        log.debug("Processing open prs: %s", open_prs)
 
         for open_pr in open_prs.get("pullRequestIds", []):
             pr = codecommit.get_pull_request(pullRequestId=open_pr)
@@ -86,7 +86,7 @@ def get_open_pull_requests():
             if not pr:
                 continue
 
-            log.debug("Processing pr: %s", json.loads(pr))
+            log.debug("Processing pr: %s", pr)
 
             pr_id = pr["pullRequest"]["pullRequestId"]
             author = pr["pullRequest"]["authorArn"]

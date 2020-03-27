@@ -2,6 +2,7 @@
 *.tfstate
 *.tfstate.backup
 .terraform/
+*.auto.tfvars
 
 # Module-specific exclusions
 .filecache

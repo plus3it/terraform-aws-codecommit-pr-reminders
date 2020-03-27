@@ -20,7 +20,7 @@ module "lambda" {
   environment = {
     variables = {
       SLACK_WEBHOOK = var.hook_url
-      LOG_LEVEL     = var.LOG_LEVEL
+      LOG_LEVEL     = var.log_level
       DRYRUN        = var.dry_run
     }
   }

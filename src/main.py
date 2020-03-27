@@ -6,8 +6,10 @@ import os
 import boto3
 import requests
 
+DEBUG = False
+
 codecommit = boto3.client("codecommit")
-slack_webhook = os.environ["SLACK_WEBHOOK"]
+slack_webhook = os.environ["SLACK_WEBHOOK"] if not DEBUG else None
 
 
 def post_message(pull_requests):
@@ -28,7 +30,8 @@ def post_message(pull_requests):
 
     if text:
         payload = {"blocks": text}
-        requests.post(slack_webhook, data=json.dumps(payload))
+        if not DEBUG:
+            requests.post(slack_webhook, data=json.dumps(payload))
 
 
 def get_open_pull_requests():

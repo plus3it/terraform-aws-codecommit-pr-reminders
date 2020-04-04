@@ -3,6 +3,12 @@
 Terraform module to deploy a lambda function that will enumerate CodeCommit repositories and publish the Open PRs to slack
 
 <!-- BEGIN TFDOCS -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| terraform | >= 0.12 |
+
 ## Providers
 
 | Name | Version |
@@ -12,7 +18,7 @@ Terraform module to deploy a lambda function that will enumerate CodeCommit repo
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:-----:|
+|------|-------------|------|---------|:--------:|
 | hook\_url | Slack webhook URL; see <https://api.slack.com/incoming-webhooks> | `string` | n/a | yes |
 | dry\_run | toggle to control dryrun output of the lambda function | `bool` | `false` | no |
 | log\_level | The log level of the lambda function | `string` | `"INFO"` | no |

@@ -17,7 +17,7 @@ variable "hook_url" {
 
 variable "tags" {
   description = "Tags to add to the supported resources"
-  type        = map
+  type        = map(any)
   default     = {}
 }
 

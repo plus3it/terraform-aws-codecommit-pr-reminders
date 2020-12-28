@@ -24,7 +24,7 @@ Terraform module to deploy a lambda function that will enumerate CodeCommit repo
 | log\_level | The log level of the lambda function | `string` | `"INFO"` | no |
 | name | (Optional) Name to associate with the lambda function | `string` | `"codecommit-pr-reminders"` | no |
 | schedule | (Optional) Schedule expression for CloudWatch event; see <https://docs.aws.amazon.com/lambda/latest/dg/tutorial-scheduled-events-schedule-expressions.html> | `string` | `"cron(0 7 ? * MON-FRI *)"` | no |
-| tags | Tags to add to the supported resources | `map` | `{}` | no |
+| tags | Tags to add to the supported resources | `map(any)` | `{}` | no |
 
 ## Outputs
 

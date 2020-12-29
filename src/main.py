@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""Post reminders about open CodeCommit pull requests to slack."""
 import json
 import os
 import logging
@@ -31,12 +32,12 @@ if root.handlers:
     for handler in root.handlers:
         root.removeHandler(handler)
 
-log_file_name = ""
+LOG_FILE_NAME = ""
 if not os.environ.get("AWS_EXECUTION_ENV"):
-    log_file_name = "aws-pr-reminders.log"
+    LOG_FILE_NAME = "aws-pr-reminders.log"
 
 logging.basicConfig(
-    filename=log_file_name,
+    filename=LOG_FILE_NAME,
     format="%(asctime)s.%(msecs)03dZ [%(name)s][%(levelname)-5s]: %(message)s",
     datefmt="%Y-%m-%dT%H:%M:%S",
     level=LOG_LEVELS[os.environ.get("LOG_LEVEL", "").lower()],
@@ -45,15 +46,17 @@ log = logging.getLogger(__name__)
 
 
 def post_message(pull_requests):
+    """Post message to slack."""
     text = []
 
-    for pr in pull_requests:
+    for pull_request in pull_requests:
         formatting = (
             ">Title: ",
             "<https://console.aws.amazon.com/codesuite/codecommit/repositories/",
-            f"{pr['repo_name']}/pull-requests/{pr['id']}|{pr['title']}>\n",
-            f">Repo: {pr['repo_name']}\n",
-            f">Author: `{pr['author']}`",
+            f"{pull_request['repo_name']}/pull-requests/",
+            f"{pull_request['id']}|{pull_request['title']}>\n",
+            f">Repo: {pull_request['repo_name']}\n",
+            f">Author: `{pull_request['author']}`",
         )
 
         text.append(
@@ -67,6 +70,7 @@ def post_message(pull_requests):
 
 
 def get_open_pull_requests():
+    """Get list of open pull requests from CodeCommit."""
     open_pull_requests = []
     repos = codecommit.list_repositories() or {}
 
@@ -81,17 +85,17 @@ def get_open_pull_requests():
         log.debug("Processing open prs: %s", open_prs)
 
         for open_pr in open_prs.get("pullRequestIds", []):
-            pr = codecommit.get_pull_request(pullRequestId=open_pr)
+            pull_request = codecommit.get_pull_request(pullRequestId=open_pr)
 
-            if not pr:
+            if not pull_request:
                 continue
 
-            log.debug("Processing pr: %s", pr)
+            log.debug("Processing pr: %s", pull_request)
 
-            pr_id = pr["pullRequest"]["pullRequestId"]
-            author = pr["pullRequest"]["authorArn"]
+            pr_id = pull_request["pullRequest"]["pullRequestId"]
+            author = pull_request["pullRequest"]["authorArn"]
             repo_name = repo["repositoryName"]
-            title = pr["pullRequest"]["title"]
+            title = pull_request["pullRequest"]["title"]
             open_pull_requests.append(
                 {"id": pr_id, "author": author, "repo_name": repo_name, "title": title}
             )
@@ -99,11 +103,13 @@ def get_open_pull_requests():
     return open_pull_requests
 
 
-def lambda_handler(event, context):
+def lambda_handler(event, context):  # pylint: disable=unused-argument
+    """Entry point for lambda handler."""
     main()
 
 
 def main():
+    """Post reminders about open CodeCommit pull requests to slack."""
     open_pull_requests = get_open_pull_requests()
     post_message(open_pull_requests)
 

@@ -1,7 +1,9 @@
 terraform {
-  required_version = "~> 0.11.0"
+  required_version = ">= 0.12"
 }
 
 module "example" {
   source = "../../"
+
+  hook_url = "https://google.com"
 }

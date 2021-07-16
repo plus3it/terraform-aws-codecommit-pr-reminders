@@ -3,7 +3,7 @@ terraform {
 }
 
 module "example" {
-  source   = "../../"
+  source = "../../"
 
   hook_url = "https://google.com"
 }

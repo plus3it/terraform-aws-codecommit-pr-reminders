@@ -66,7 +66,7 @@ def post_message(pull_requests):
     if text:
         payload = {"blocks": text}
         if not DRYRUN:
-            requests.post(SLACK_WEBHOOK, data=json.dumps(payload))
+            requests.post(SLACK_WEBHOOK, data=json.dumps(payload), timeout=10)
 
 
 def get_open_pull_requests():

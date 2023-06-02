@@ -32,3 +32,12 @@ variable "dry_run" {
   default     = false
   description = "toggle to control dryrun output of the lambda function"
 }
+
+variable "lambda" {
+  description = "Object of attributes for the lambda function configuration"
+  type = object({
+    runtime = optional(string, "python3.9")
+  })
+  nullable = false
+  default  = {}
+}

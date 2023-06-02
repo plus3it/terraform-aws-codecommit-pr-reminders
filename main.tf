@@ -8,7 +8,7 @@ module "lambda" {
   function_name = var.name
   description   = "Gather open pull requests and send it to slack"
   handler       = "main.lambda_handler"
-  runtime       = "python3.6"
+  runtime       = var.lambda.runtime
   timeout       = 30
 
   source_path = "${path.module}/src"

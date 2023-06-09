@@ -3,7 +3,7 @@ terraform {
 }
 
 module "lambda" {
-  source = "git::https://github.com/plus3it/terraform-aws-lambda.git?ref=v1.3.0"
+  source = "git::https://github.com/terraform-aws-modules/terraform-aws-lambda.git"
 
   function_name = var.name
   description   = "Gather open pull requests and send it to slack"
@@ -13,16 +13,12 @@ module "lambda" {
 
   source_path = "${path.module}/src"
 
-  policy = {
-    json = data.aws_iam_policy_document.this.json
-  }
+  policy = data.aws_iam_policy_document.this.json
 
-  environment = {
-    variables = {
-      SLACK_WEBHOOK = var.hook_url
-      LOG_LEVEL     = var.log_level
-      DRYRUN        = var.dry_run
-    }
+  environment_variables = {
+    SLACK_WEBHOOK = var.hook_url
+    LOG_LEVEL     = var.log_level
+    DRYRUN        = var.dry_run
   }
 }
 
@@ -36,12 +32,12 @@ resource "aws_cloudwatch_event_rule" "this" {
 
 resource "aws_cloudwatch_event_target" "this" {
   rule = aws_cloudwatch_event_rule.this.name
-  arn  = module.lambda.function_arn
+  arn  = module.lambda.lambda_function_arn
 }
 
 resource "aws_lambda_permission" "this" {
   action        = "lambda:InvokeFunction"
-  function_name = module.lambda.function_name
+  function_name = module.lambda.lambda_function_name
   principal     = "events.amazonaws.com"
   source_arn    = aws_cloudwatch_event_rule.this.arn
 }

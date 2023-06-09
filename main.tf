@@ -15,7 +15,7 @@ module "lambda" {
 
   policy = data.aws_iam_policy_document.this.json
 
-  environment = {
+  environment_variables = {
     SLACK_WEBHOOK = var.hook_url
     LOG_LEVEL     = var.log_level
     DRYRUN        = var.dry_run

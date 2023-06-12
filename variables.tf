@@ -36,7 +36,7 @@ variable "dry_run" {
 variable "lambda" {
   description = "Object of attributes for the lambda function configuration"
   type = object({
-    runtime = optional(string, "python3.8")
+    runtime = optional(string, "python3.9")
   })
   nullable = false
   default  = {}

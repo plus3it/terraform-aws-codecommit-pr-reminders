@@ -45,7 +45,7 @@ make mockstack/clean
 |------|-------------|------|---------|:--------:|
 | <a name="input_hook_url"></a> [hook\_url](#input\_hook\_url) | Slack webhook URL; see <https://api.slack.com/incoming-webhooks> | `string` | n/a | yes |
 | <a name="input_dry_run"></a> [dry\_run](#input\_dry\_run) | toggle to control dryrun output of the lambda function | `bool` | `false` | no |
-| <a name="input_lambda"></a> [lambda](#input\_lambda) | Object of attributes for the lambda function configuration | <pre>object({<br>    runtime = optional(string, "python3.8")<br>  })</pre> | `{}` | no |
+| <a name="input_lambda"></a> [lambda](#input\_lambda) | Object of attributes for the lambda function configuration | <pre>object({<br>    runtime = optional(string, "python3.9")<br>  })</pre> | `{}` | no |
 | <a name="input_log_level"></a> [log\_level](#input\_log\_level) | The log level of the lambda function | `string` | `"INFO"` | no |
 | <a name="input_name"></a> [name](#input\_name) | (Optional) Name to associate with the lambda function | `string` | `"codecommit-pr-reminders"` | no |
 | <a name="input_schedule"></a> [schedule](#input\_schedule) | (Optional) Schedule expression for CloudWatch event; see <https://docs.aws.amazon.com/lambda/latest/dg/tutorial-scheduled-events-schedule-expressions.html> | `string` | `"cron(0 7 ? * MON-FRI *)"` | no |

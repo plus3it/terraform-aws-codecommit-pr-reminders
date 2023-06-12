@@ -5,9 +5,9 @@ terraform {
 module "lambda" {
   source = "git::https://github.com/terraform-aws-modules/terraform-aws-lambda.git?ref=v5.0.0"
 
-  function_name = var.name
-  description   = "Gather open pull requests and send it to slack"
-  handler       = "main.lambda_handler"
+  function_name            = var.name
+  description              = "Gather open pull requests and send it to slack"
+  handler                  = "main.lambda_handler"
   artifacts_dir            = var.lambda.artifacts_dir
   build_in_docker          = var.lambda.build_in_docker
   create_package           = var.lambda.create_package

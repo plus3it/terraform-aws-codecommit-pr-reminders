@@ -34,15 +34,6 @@ variable "dry_run" {
 }
 
 variable "lambda" {
-  description = "Object of attributes for the lambda function configuration"
-  type = object({
-    runtime = optional(string, "python3.9")
-  })
-  nullable = false
-  default  = {}
-}
-
-variable "lambda" {
   description = "Object of optional attributes passed on to the lambda module"
   type = object({
     artifacts_dir            = optional(string, "builds")

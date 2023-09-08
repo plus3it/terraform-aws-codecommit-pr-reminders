@@ -1,4 +1,4 @@
-FROM plus3it/tardigrade-ci:0.24.12
+FROM plus3it/tardigrade-ci:0.24.13
 
 COPY ./src/requirements.txt /src/requirements.txt
 

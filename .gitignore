@@ -21,3 +21,6 @@ src/__pycache__/
 
 # Logs
 aws-pr-reminders.log
+
+# Lambda builds
+builds/

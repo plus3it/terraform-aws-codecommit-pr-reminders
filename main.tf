@@ -23,6 +23,9 @@ module "lambda" {
   store_on_s3              = var.lambda.store_on_s3
   timeout                  = var.lambda.timeout
 
+  attach_policy_json = true
+  policy_json        = data.aws_iam_policy_document.this.json
+
   source_path = [
     {
       path             = "${path.module}/src"
@@ -30,8 +33,6 @@ module "lambda" {
       patterns         = ["!\\.terragrunt-source-manifest"]
     }
   ]
-
-  policy = data.aws_iam_policy_document.this.json
 
   environment_variables = {
     SLACK_WEBHOOK = var.hook_url

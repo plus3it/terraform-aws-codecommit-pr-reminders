@@ -3,7 +3,7 @@ terraform {
 }
 
 module "lambda" {
-  source = "git::https://github.com/terraform-aws-modules/terraform-aws-lambda.git?ref=v8.1.0"
+  source = "git::https://github.com/terraform-aws-modules/terraform-aws-lambda.git?ref=v8.1.1"
 
   function_name            = var.name
   description              = "Gather open pull requests and send it to slack"

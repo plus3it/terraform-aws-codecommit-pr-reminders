@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Post reminders about open CodeCommit pull requests to slack."""
+
 import json
 import os
 import logging
